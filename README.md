@@ -27,19 +27,3 @@ It’s designed using **HTML, Tailwind CSS**, and **JavaScript** to ensure a sle
 | **Styling** | Custom CSS animations, Gradient backgrounds |
 | **Icons & Fonts** | Google Fonts (Poppins), Heroicons |
 | **Deployment** | GitHub Pages |
-
----
-
-## 🚀 Getting Started
-
-Follow these simple steps to run the project locally:
-
-```bash
-# Clone the repository
-git clone https://github.com/<your-username>/portfolio.git
-
-# Open the project folder
-cd portfolio
-
-# Run the index.html file
-open index.html
