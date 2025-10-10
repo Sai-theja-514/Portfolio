@@ -675,11 +675,11 @@
         }
 
         .content-overlay {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(15, 23, 42, 0.95);
             backdrop-filter: blur(10px);
             display: flex;
@@ -688,8 +688,7 @@
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s ease;
-            z-index: 10;
-            border-radius: inherit;
+            z-index: 1000;
             padding: 20px;
             text-align: center;
         }
@@ -697,24 +696,32 @@
         .content-overlay.active {
             opacity: 1;
             visibility: visible;
+            z-index: 1000;
         }
 
         .overlay-content {
             color: #f1f5f9;
-            font-size: 14px;
+            font-size: 16px;
             line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(30, 41, 59, 0.9);
+            padding: 30px;
+            border-radius: 12px;
+            position: relative;
         }
 
         .close-overlay {
             position: absolute;
-            top: 10px;
-            right: 15px;
+            top: 15px;
+            right: 20px;
             background: none;
             border: none;
             color: #f1f5f9;
-            font-size: 20px;
+            font-size: 24px;
             cursor: pointer;
             padding: 5px;
+            z-index: 1001;
             border-radius: 50%;
             transition: background-color 0.3s ease;
         }
@@ -811,15 +818,30 @@
             font-size: 16px;
         }
 
-        /* Achievement cards with click details */
+        /* Achievement cards */
         .achievement-card {
             position: relative;
             overflow: hidden;
-            cursor: pointer;
         }
 
         .achievement-card:hover {
             transform: translateY(-5px) scale(1.02);
+        }
+
+        /* About section cards with overlays */
+        .clickable {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-card {
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .about-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
         }
     </style>
 </head>
@@ -997,7 +1019,7 @@
                     <!-- Right Side - Skills Overview -->
                     <div class="space-y-6">
                         <!-- What I Do -->
-                        <div class="card p-6 rounded-xl clickable" data-about="skills">
+                        <div class="card p-6 rounded-xl about-card" data-target="what-i-do-overlay">
                             <div class="flex items-center mb-4">
                                 <div class="w-10 h-10 bg-gradient-to-r from-green-500 to-teal-500 rounded-lg flex items-center justify-center mr-3">
                                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1008,36 +1030,10 @@
                             </div>
                             <p class="text-gray-600">Full-stack development, AI/ML solutions, cloud architecture, and innovative problem-solving.</p>
                             <div class="hover-info">Click for detailed breakdown</div>
-                            <div class="content-overlay">
-                                <button class="close-overlay">&times;</button>
-                                <div class="overlay-content">
-                                    <h4 class="text-xl font-bold mb-4">My Core Competencies</h4>
-                                    <div class="grid grid-cols-2 gap-4 text-left">
-                                        <div>
-                                            <h5 class="font-semibold mb-2 text-purple-400">Development</h5>
-                                            <ul class="space-y-1 text-sm">
-                                                <li>• Full-stack Web Development</li>
-                                                <li>• Mobile App Development</li>
-                                                <li>• API Design & Integration</li>
-                                                <li>• Database Management</li>
-                                            </ul>
-                                        </div>
-                                        <div>
-                                            <h5 class="font-semibold mb-2 text-cyan-400">AI & Data</h5>
-                                            <ul class="space-y-1 text-sm">
-                                                <li>• Machine Learning Models</li>
-                                                <li>• Data Analysis & Visualization</li>
-                                                <li>• Deep Learning Applications</li>
-                                                <li>• Predictive Analytics</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
 
                         <!-- Current Focus -->
-                        <div class="card p-6 rounded-xl clickable" data-about="focus">
+                        <div class="card p-6 rounded-xl about-card" data-target="current-focus-overlay">
                             <div class="flex items-center mb-4">
                                 <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center mr-3">
                                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1048,34 +1044,10 @@
                             </div>
                             <p class="text-gray-600">Advancing in generative AI, cloud-native development, and scalable system architecture.</p>
                             <div class="hover-info">Click for learning roadmap</div>
-                            <div class="content-overlay">
-                                <button class="close-overlay">&times;</button>
-                                <div class="overlay-content">
-                                    <h4 class="text-xl font-bold mb-4">2025 Learning Goals</h4>
-                                    <div class="text-left space-y-3">
-                                        <div class="flex items-center">
-                                            <div class="w-4 h-4 bg-green-500 rounded-full mr-3"></div>
-                                            <span>Advanced Generative AI & LLM Integration</span>
-                                        </div>
-                                        <div class="flex items-center">
-                                            <div class="w-4 h-4 bg-blue-500 rounded-full mr-3"></div>
-                                            <span>Kubernetes & Microservices Architecture</span>
-                                        </div>
-                                        <div class="flex items-center">
-                                            <div class="w-4 h-4 bg-purple-500 rounded-full mr-3"></div>
-                                            <span>System Design for Large-Scale Applications</span>
-                                        </div>
-                                        <div class="flex items-center">
-                                            <div class="w-4 h-4 bg-yellow-500 rounded-full mr-3"></div>
-                                            <span>DevOps & CI/CD Pipeline Optimization</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
 
                         <!-- Goals -->
-                        <div class="card p-6 rounded-xl clickable" data-about="goals">
+                        <div class="card p-6 rounded-xl about-card" data-target="my-vision-overlay">
                             <div class="flex items-center mb-4">
                                 <div class="w-10 h-10 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg flex items-center justify-center mr-3">
                                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1086,22 +1058,76 @@
                             </div>
                             <p class="text-gray-600">Building technology that makes a meaningful impact on society and human progress.</p>
                             <div class="hover-info">Click for detailed vision</div>
-                            <div class="content-overlay">
-                                <button class="close-overlay">&times;</button>
-                                <div class="overlay-content">
-                                    <h4 class="text-xl font-bold mb-4">My Professional Vision</h4>
-                                    <div class="text-left space-y-4">
-                                        <p><strong>Short-term (1-2 years):</strong></p>
-                                        <p class="text-sm pl-4">Secure a challenging role as a Software Engineer where I can contribute to innovative projects while continuously learning and growing my technical expertise.</p>
-                                        
-                                        <p><strong>Medium-term (3-5 years):</strong></p>
-                                        <p class="text-sm pl-4">Lead development teams in creating AI-driven solutions that solve real-world problems, specializing in scalable systems and emerging technologies.</p>
-                                        
-                                        <p><strong>Long-term (5+ years):</strong></p>
-                                        <p class="text-sm pl-4">Establish myself as a technology leader, contributing to open-source communities and mentoring the next generation of developers.</p>
-                                    </div>
-                                </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Overlay Elements -->
+                <div id="what-i-do-overlay" class="content-overlay">
+                    <button class="close-overlay">&times;</button>
+                    <div class="overlay-content">
+                        <h4 class="text-xl font-bold mb-4">My Core Competencies</h4>
+                        <div class="grid grid-cols-2 gap-4 text-left">
+                            <div>
+                                <h5 class="font-semibold mb-2 text-purple-400">Development</h5>
+                                <ul class="space-y-1 text-sm">
+                                    <li>• Full-stack Web Development</li>
+                                    <li>• Mobile App Development</li>
+                                    <li>• API Design & Integration</li>
+                                    <li>• Database Management</li>
+                                </ul>
                             </div>
+                            <div>
+                                <h5 class="font-semibold mb-2 text-cyan-400">AI & Data</h5>
+                                <ul class="space-y-1 text-sm">
+                                    <li>• Machine Learning Models</li>
+                                    <li>• Data Analysis & Visualization</li>
+                                    <li>• Deep Learning Applications</li>
+                                    <li>• Predictive Analytics</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="current-focus-overlay" class="content-overlay">
+                    <button class="close-overlay">&times;</button>
+                    <div class="overlay-content">
+                        <h4 class="text-xl font-bold mb-4">2025 Learning Goals</h4>
+                        <div class="text-left space-y-3">
+                            <div class="flex items-center">
+                                <div class="w-4 h-4 bg-green-500 rounded-full mr-3"></div>
+                                <span>Advanced Generative AI & LLM Integration</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-4 h-4 bg-blue-500 rounded-full mr-3"></div>
+                                <span>Kubernetes & Microservices Architecture</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-4 h-4 bg-purple-500 rounded-full mr-3"></div>
+                                <span>System Design for Large-Scale Applications</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-4 h-4 bg-yellow-500 rounded-full mr-3"></div>
+                                <span>DevOps & CI/CD Pipeline Optimization</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="my-vision-overlay" class="content-overlay">
+                    <button class="close-overlay">&times;</button>
+                    <div class="overlay-content">
+                        <h4 class="text-xl font-bold mb-4">My Professional Vision</h4>
+                        <div class="text-left space-y-4">
+                            <p><strong>Short-term (1-2 years):</strong></p>
+                            <p class="text-sm pl-4">Secure a challenging role as a Software Engineer where I can contribute to innovative projects while continuously learning and growing my technical expertise.</p>
+                            
+                            <p><strong>Medium-term (3-5 years):</strong></p>
+                            <p class="text-sm pl-4">Lead development teams in creating AI-driven solutions that solve real-world problems, specializing in scalable systems and emerging technologies.</p>
+                            
+                            <p><strong>Long-term (5+ years):</strong></p>
+                            <p class="text-sm pl-4">Establish myself as a technology leader, contributing to open-source communities and mentoring the next generation of developers.</p>
                         </div>
                     </div>
                 </div>
@@ -1363,56 +1389,17 @@
                  <div>
                     <h3 class="text-2xl font-semibold text-center mb-6 text-gray-700">Key Achievements</h3>
                     <div class="space-y-6">
-                        <div class="card p-5 rounded-lg achievement-card clickable" data-achievement="viit">
+                        <div class="card p-5 rounded-lg achievement-card">
                             <h4 class="font-bold text-lg text-gray-800">VIIT Hackathon</h4>
                             <p class="text-gray-600">Achieved a Top 8 placement in the hackathon held in Duvvada.</p>
-                            <div class="hover-info">Click for more details</div>
-                            <div class="content-overlay">
-                                <button class="close-overlay">&times;</button>
-                                <div class="overlay-content">
-                                    <h4 class="text-xl font-bold mb-4">VIIT Hackathon Details</h4>
-                                    <p class="mb-3"><strong>Event:</strong> VIIT Innovation Hackathon 2024</p>
-                                    <p class="mb-3"><strong>Theme:</strong> Smart City Solutions</p>
-                                    <p class="mb-3"><strong>Project:</strong> Traffic Management AI System</p>
-                                    <p class="mb-3"><strong>Team Size:</strong> 4 members</p>
-                                    <p class="mb-3"><strong>Technologies Used:</strong> Python, OpenCV, Machine Learning</p>
-                                    <p><strong>Achievement:</strong> Top 8 out of 150+ teams, recognized for innovative approach to urban traffic optimization</p>
-                                </div>
-                            </div>
                         </div>
-                        <div class="card p-5 rounded-lg achievement-card clickable" data-achievement="kbn">
+                        <div class="card p-5 rounded-lg achievement-card">
                             <h4 class="font-bold text-lg text-gray-800">KBN Hackathon</h4>
                             <p class="text-gray-600">Gained hands-on experience in collaborative problem-solving and innovative project development.</p>
-                            <div class="hover-info">Click for more details</div>
-                            <div class="content-overlay">
-                                <button class="close-overlay">&times;</button>
-                                <div class="overlay-content">
-                                    <h4 class="text-xl font-bold mb-4">KBN Hackathon Details</h4>
-                                    <p class="mb-3"><strong>Event:</strong> KBN College Tech Fest 2024</p>
-                                    <p class="mb-3"><strong>Theme:</strong> Healthcare Innovation</p>
-                                    <p class="mb-3"><strong>Project:</strong> Mental Health Monitoring App</p>
-                                    <p class="mb-3"><strong>Duration:</strong> 24 hours</p>
-                                    <p class="mb-3"><strong>Technologies Used:</strong> React Native, Node.js, MongoDB</p>
-                                    <p><strong>Learning:</strong> Enhanced skills in rapid prototyping, team collaboration, and healthcare technology solutions</p>
-                                </div>
-                            </div>
                         </div>
-                        <div class="card p-5 rounded-lg achievement-card clickable" data-achievement="cp">
+                        <div class="card p-5 rounded-lg achievement-card">
                             <h4 class="font-bold text-lg text-gray-800">Competitive Programming</h4>
                             <p class="text-gray-600">Active problem-solving on HackerRank & LeetCode, demonstrating strong skills in data structures and algorithms.</p>
-                            <div class="hover-info">Click for more details</div>
-                            <div class="content-overlay">
-                                <button class="close-overlay">&times;</button>
-                                <div class="overlay-content">
-                                    <h4 class="text-xl font-bold mb-4">Competitive Programming Stats</h4>
-                                    <p class="mb-3"><strong>HackerRank:</strong> 5-star in Problem Solving, 4-star in Java</p>
-                                    <p class="mb-3"><strong>LeetCode:</strong> 400+ problems solved, Guardian badge</p>
-                                    <p class="mb-3"><strong>CodeChef:</strong> 3-star rating (Max: 1640)</p>
-                                    <p class="mb-3"><strong>Strong Areas:</strong> Dynamic Programming, Graph Algorithms, Tree Traversals</p>
-                                    <p class="mb-3"><strong>Languages Used:</strong> Java, Python, C++</p>
-                                    <p><strong>Contest Participation:</strong> Regular participant in weekly contests, consistently ranking in top 20%</p>
-                                </div>
-                            </div>
                         </div>
                     </div>
                  </div>
@@ -1541,13 +1528,42 @@
             });
         });
 
-        // Handle project and achievement card clicks
-        document.querySelectorAll('.clickable').forEach(element => {
-            element.addEventListener('click', (e) => {
+        // Handle About section card clicks
+        document.querySelectorAll('.about-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                
                 // Don't trigger on link clicks
                 if (e.target.tagName === 'A' || e.target.closest('a')) {
                     return;
                 }
+                
+                const targetId = card.getAttribute('data-target');
+                const overlay = document.getElementById(targetId);
+                
+                if (overlay) {
+                    overlay.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+            });
+        });
+
+        // Handle project card clicks (keep existing functionality)
+        document.querySelectorAll('.clickable').forEach(element => {
+            element.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // Don't trigger on link clicks
+                if (e.target.tagName === 'A' || e.target.closest('a')) {
+                    return;
+                }
+                
+                // Close any existing overlays first
+                document.querySelectorAll('.content-overlay.active').forEach(overlay => {
+                    overlay.classList.remove('active');
+                });
                 
                 const overlay = element.querySelector('.content-overlay');
                 if (overlay) {
